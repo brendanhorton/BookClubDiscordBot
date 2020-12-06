@@ -1,0 +1,15 @@
+
+# TODO
+# 1. seperate datetime object and begin using it for conditionals
+    - idk if i need to seperate it as the methods provided allow access to day and month can just test the return value
+# 2. send progress reminders to users to keep them on track -- simple extension of loops once i have datetime object broken
+# 3. at end of month maybe i send a message and disscusion questions in order to stimulate conversation
+# 4. eventually get books to autochange and rotate through selections as new month hits
+# 4b) example: on 1st at 9am sends message >>> this month you are reading XYZ it is XYZ pages long, good luck have fun
+# 4c) maybe api implementation here? book api to pull book title and length maybe a brief sysnopsis even -- this could be fun
+
+#possible features?
+#add commands for check ins
+#add commands for finishing the book -- have has with everyones username and just a simple 1 or 0 for done or not
+
+
