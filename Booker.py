@@ -1,60 +1,89 @@
 import discord
 from discord.ext.commands import Bot
 from discord.ext import commands, tasks
+from discord.message import Attachment
+import requests
+import json
 import datetime
 from TOKEN import *
 
-#command prefix 
+#collection of months and corresponding book // 
+# should start blank and be added to as books are chosen through commands
+bookCollection = {
+    "January": "15 Dogs",
+    "February": "feb",
+    "March": "mar",
+    "April": "apr",
+    "May": "may",
+    "June": "june",
+    "July": "july",
+    "August": "aug",
+    "September": "sept",
+    "October": "oct",
+    "November": "nov",
+    "December": "death on the nile"
+}
+
+#command prefix and bot object
 bot = Bot(command_prefix='!')
 
 #intializes currentDate variable and update it when performing date based loops to ensure right time
+#need to break date setting into own method soon -- very WET
 currentDate = datetime.datetime.now()
+#sets current month to string using currentDate and dateobject.strftime
+currentMonth = currentDate.strftime("%B")
+#sets a book of the month for ease of use
+bookOfTheMonth = bookCollection[currentMonth]
+
+
+#need to put api call in method so i can call when book is changed for the month
+#should probably make this a try / e so i cant break bot with bad GET
+response = requests.get(f"https://v1.nocodeapi.com/colourised/gr/ylbRWcheecMozbsx/search?q={bookOfTheMonth}").json()
+if response != False:
+    print("BOOK GET SUCCESFUL!")
+
 
 #general channel id -- must have -- book club only has one channel so dont need to edit this rn
 #if expanded to work for others would need to have a different solution to finding channel id
 CHANNEL_ID = 784457938551046167
 
-#want to eventually create hash to keep track of books for each month -- hardcoding for now
-bookOfTheMonth = 'Death on the Nile'
-
 # this event makes sure bot is ready and will output when it is
-#want to change bot so it displays the current months book // not sure how 
-#maybe i need to use a datetime object and conditionals
-#if month == x then output y as name of activity
-#can have large hash with book for each month
-#expansion would include allowing user to set books for each month per instance of bot
-#doable
 @bot.event
 async def on_ready():
     print('Booker started reading!')
-    await bot.change_presence(activity= discord.Activity(type = discord.ActivityType.listening, name = bookOfTheMonth))
+    await bot.change_presence(activity= discord.Activity(type = discord.ActivityType.listening, name = bookCollection[currentMonth]))
 
-#when someone types test bot returns testing 123
-#need to translate datetime into written month -- shouldnt be hard -- might be included in module quick google
-@bot.event
-async def on_message(message):
-    if message.content == '!currentbook':
-        await message.channel.send(f'The book for the month of December is {bookOfTheMonth}')
-    
-    await bot.process_commands(message)
+#provides title and author of current months book
+@bot.command()
+async def bookinfo(ctx):
+    await ctx.send(f"{response['results'][0]['title']} by {response['results'][0]['author']['name']}")
+    await ctx.send(response['results'][0]['image_url'])
 
+#command to addbook to a selected month
+@bot.command()
+async def addbook(ctx, month, book):
+    month = month.capitalize()
+    bookCollection[month] = book
+    await ctx.send(f"{book} has been chosen for the month of {month}")
 
-#goal is to create multiple different reminders based on date
-#halfway point
-#end of month
+#for the boys
+@bot.command()
+async def xanman(ctx):
+    await ctx.send("I FUCK BITCHES AND IM MLG PRO YEET!!!!")
+
 #once i add !finished then i can @ only the people who arent done their books -- less channel spam
 @tasks.loop(hours=24)
 async def weekly_announcment():
     messageChannel = bot.get_channel(CHANNEL_ID)
-    #on 15th sends reminder to read
+    #need to update bookOfTheMonth before sending this message!
+    if currentDate.day == 1:
+        await messageChannel.send(f"@everyone It is {currentMonth}! Time for a new book! This month you're reading {bookCollection[currentMonth]}")
+    #reminder halfway through month
     if currentDate.day == 15:
-        await messageChannel.send(f"@everyone We are halfway through the month! Are you halfway through {bookOfTheMonth}?")
-    #
+        await messageChannel.send(f"@everyone We are halfway through the month! Are you halfway through {bookCollection[currentMonth]}?")
+    #send discussion questions? actual check of last day // currently assuming all months 30 days
     if currentDate.day == 30:
-        await messageChannel.send(f"@everyone The month is over hope you're done {bookOfTheMonth}!")
-    else:
-        await messageChannel.send(f"@everyone This is just a testing conditional I don't care what the date is makes sure loop is working.")
-
+        await messageChannel.send(f"@everyone The month is over hope you're done {bookCollection[currentMonth]}!")
 
 @weekly_announcment.before_loop
 async def before():
@@ -62,8 +91,7 @@ async def before():
     currentDate = datetime.datetime.now()
     print(f"updated datetime to {currentDate}")
 
-# #need the start functions on loops or they dont run
-# testingLoop.start()
+#need the start method on loops or they dont run
 weekly_announcment.start()
 
 #must end with bot.run
