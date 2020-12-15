@@ -1,24 +1,13 @@
 TODO ----
-1. Refactor my GETTER so I pull from API and update book variables at same time
-2. Add optional month command to !bookinfo allowing to pull info for any month -- will need seperate API GETTER
-    --GET based on month
-3. Add all users in "guild" (name for server in discordpy)
-    a) allows to set book status -- can set finished -- not done and prompts change based on this
+1. bookShelf and clubMember objects
+    -bookShelf can hold collection of month:book and pull info from shelf instead of variable in main
+    -clubMember can track members being finished or not and populate on intial load
+        -allows for mods .finished() .reset() .status() .getMembers()
+        -replace checkAllFinished function
+2. Add date.endOfMonth() --> bool 
+    -will make end of month loop only occur if actual last day of month instead of hardcode 30th
+2. edit HELP popup
 4. Clean up usecases 
     - lower all text in commands to avoid breaks
     - capitalize book titles for appearance
-
-
-NOTES ---
-Book APIs are trash wanted to add page number and ratings but not willing to parse xml to do it so probably limited
-    -- could potentially use google books but query results arent consistent
-    -- goodreads json - google!
-
-
-#possible features?
-#add commands for check ins
-#add commands for finishing the book -- have has with everyones username and just a simple 1 or 0 for done or not
-    -- if adding this can start to have a leaderboard in further implementation to make it feel competitive -- maybe poke fun at last person done book
-    -- do i hardcore our names or use the discord features in order to add users (if i wanna share the bot for others this is a must) -- second step maybe
-    -- discussion questions
 
