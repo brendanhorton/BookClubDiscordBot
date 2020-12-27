@@ -28,7 +28,8 @@ bot = Bot(command_prefix='!')
 
 #general channel id -- must have -- book club only has one channel so dont need to edit this rn
 #if expanded to work for others would need to have a different solution to finding channel id
-CHANNEL_ID = 784457938551046167
+CHANNEL_ID = 792860110308638743
+
 
 # this event makes sure bot is ready and will output when it is
 # want to update status aswell
