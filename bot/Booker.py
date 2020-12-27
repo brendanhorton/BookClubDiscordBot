@@ -6,8 +6,11 @@ from discord.ext import commands, tasks
 from discord.message import Attachment
 import requests
 import json
-from TOKEN import *
 from Date import Date
+import os
+
+TOKEN = os.getenv(TOKEN)
+
 #intializes Objects // have Date, BookShelf, and MemberList each controls respective group
 date = Date()
 bookShelf = BookShelf()
