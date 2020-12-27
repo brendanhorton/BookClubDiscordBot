@@ -9,7 +9,7 @@ import json
 from Date import Date
 import os
 
-TOKEN = os.getenv(TOKEN)
+TOKEN = os.environ.get('TOKEN')
 
 #intializes Objects // have Date, BookShelf, and MemberList each controls respective group
 date = Date()
