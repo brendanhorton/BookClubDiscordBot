@@ -1,1 +1,1 @@
-worker: python Booker.py
+worker: python bot/Booker.py
