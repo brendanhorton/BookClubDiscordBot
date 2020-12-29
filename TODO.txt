@@ -9,4 +9,9 @@ TODO 2. Add date.endOfMonth() --> bool
 4. Clean up usecases
     - lower all text in commands to avoid breaks
     - capitalize book titles for appearance
-
+5. Request for PM reminders
+    - !reminder <freq in days>
+    - potential implementation
+        -save "reminder : yes/ no" in user dict
+        -if yes checks interval and sends message if interval has passed
+            -save intial date sent -- send if time since last message >= <freq in days>
