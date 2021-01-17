@@ -16,10 +16,10 @@ class BookShelf:
         }
 
     def updateMonth(self, month, bookName):
-        self.bookCollection[month.capitalize()] = bookName
+        self.bookCollection[month] = bookName
 
     def getBook(self, month):
-        return self.bookCollection[month.capitalize()]
+        return self.bookCollection[month]
 
     def allBooks(self):
         for month in self.bookCollection:

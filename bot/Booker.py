@@ -97,11 +97,6 @@ async def finished(ctx):
         await ctx.send('Not everyone is finished their book yet. Kick back and relax.')
     #want to else here and send message which displays how many people haven't finished their book (if only 1 person then at them)
 
-#for the boys
-@bot.command()
-async def xanman(ctx):
-    await ctx.send("I FUCK BITCHES AND IM MLG PRO YEET!!!!")
-
 #ideally want to @ anyone who hasnt finished their book 
 #this is only command which uses channelID (can i fix that?)
 @tasks.loop(hours=24)
@@ -109,13 +104,13 @@ async def weekly_announcment():
     messageChannel = bot.get_channel(CHANNEL_ID)
     if date.getDay() == 1:
         memberList.reset()
-        await messageChannel.send(f"@everyone It is {date.getMonth()}! Time for a new book! This month you're reading {bookShelf.getBook(date.getMonth)}")
+        await messageChannel.send(f"@everyone It is {date.getMonth()}! Time for a new book! This month you're reading {bookShelf.getBook(date.getMonth())}")
     #reminder halfway through month
     if date.getDay() == 15:
-        await messageChannel.send(f"@everyone We are halfway through the month! Are you halfway through {bookShelf.getBook(date.getMonth)}?")
+        await messageChannel.send(f"@everyone We are halfway through the month! Are you halfway through {bookShelf.getBook(date.getMonth())}?")
     #TODO - actual check for last day before sending month is over thing date.CheckLast() == true then send message
     if date.getDay() == 30:
-        await messageChannel.send(f"@everyone The month is over hope you're done {bookShelf.getBook(date.getMonth)}!")
+        await messageChannel.send(f"@everyone The month is over hope you're done {bookShelf.getBook(date.getMonth())}!")
         
 
 #needed for loops to work
