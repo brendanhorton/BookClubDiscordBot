@@ -1,5 +1,8 @@
 Discord Bot For Running Bookclubs
 
+Writtren in Python using Discord.py. API calls to goodreadsAPI in order to gather information about titles.
+
+
 Commands
 !currentbook
 -Returns information on book for current month
